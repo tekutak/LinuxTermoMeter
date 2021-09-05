@@ -49,9 +49,6 @@
 #define SSD1306_CTRL_BYTE_DATA_SINGLE (0b01000000) //描画データのWriteのみ
 #define SSD1306_CTRL_BYTE_DATA_STREAM (0b11000000) //描画データの後にその他のコマンドセットを送る場合
 
-#define SSD1306_COLUMNS (128)
-#define SSD1306_ROWS (64)
-#define SSD1306_PAGES (SSD1306_ROWS / 8)
 #define SSD1306_DRAW_CANVAS_PAYLOAD_SIZE (SSD1306_COLUMNS * SSD1306_PAGES + 1) //+1はコントロールバイト
 
 /* -----------------------------------------------------------------------------

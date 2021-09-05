@@ -1,32 +1,35 @@
-# (1)コンパイラ
-CC  = gcc
-# (2)コンパイルオプション
+# コンパイラ
+COMPILER  = gcc
+# フラグ
 CFLAGS    = -Wall -Wextra
-# (3)実行ファイル名
-TARGET  = Bme280Test
-# (4)コンパイル対象のソースコード
-SRCS    = main.c
-SRCS	+= Bme280.c
-SRCS	+= I2cCtl.c
-SRCS	+= Ssd1306.c
-SRCS	+= Paint.c
-SRCS	+= Font.c
-# (5)オブジェクトファイル名
-OBJS    = $(SRCS:%.c=%.o)
-# (6)インクルードファイルのあるディレクトリパス
-INCDIR  = 
-# (7)ライブラリファイルのあるディレクトリパス
-LIBDIR  = 
-# (8)追加するライブラリファイル
-LIBS    = 
-# (9)ターゲットファイル生成
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(LIBDIR) $(LIBS)
-# (10)オブジェクトファイル生成
-$(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) $(INCDIR) -c $(SRCS)
-# (11)"make all"で make cleanとmakeを同時に実施。
-all: clean $(OBJS) $(TARGET)
-# (12).oファイル、実行ファイル、.dファイルを削除
+# ライブラリ
+LIBS      =
+# インクルードパス
+INCLUDE	= -I./src -I./src/DriverCtl -I./src/CompoCtl -I./src/SysFunc/Paint -I./src/SysFunc/Thermo
+# 生成される実行ファイル
+TARGETS   = a.out
+# 生成されるバイナリファイルの出力ディレクトリ
+TARGETDIR = .
+
+SRCROOT   = ./src
+SRCDIRS   = $(shell find $(SRCROOT) -type d)
+SOURCES   = $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.c))
+
+OBJROOT   = ./obj
+OBJECTS   = $(addprefix $(OBJROOT)/, $(SOURCES:.c=.o)) 
+OBJDIRS   = $(addprefix $(OBJROOT)/, $(SRCDIRS)) 
+DEPENDS   = $(OBJECTS:.o=.d)
+
+# 依存ファイルを元に実行ファイルを作る
+$(TARGETS): $(OBJECTS) $(LIBS)
+	$(COMPILER) -o $(TARGETDIR)/$@ $^ $(LDFLAGS)
+
+# 中間バイナリのディレクトリを掘りながら.cppを中間ファイル.oに
+$(OBJROOT)/%.o: %.c
+	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
+	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+-include $(DEPENDS)
+
 clean:
-	-rm -f $(OBJS) $(TARGET) *.d
+	rm -rf $(OBJROOT)

@@ -24,6 +24,7 @@
 /* -----------------------------------------------------------------------------
  Global
 ------------------------------------------------------------------------------*/
+static U08 U08_Canvas[SSD1306_CANVAS_SIZE] = {0};
 
 /* -----------------------------------------------------------------------------
  Prototype
@@ -42,6 +43,16 @@ static void Paint_DrawSemiHalfPercent(U08 offset_x, U08 offset_y);
 static void Paint_DrawSemiHalfDot(U08 offset_x, U08 offset_y);
 
 /* -----------------------------------------------------------------------------
+ Function   : Paint_Init
+ Memo       : Paint初期化
+ Date       : 2021.09.01
+------------------------------------------------------------------------------*/
+extern BOOL Paint_Init()
+{
+    Paint_ClearCanvas();
+    return OK;
+}
+/* -----------------------------------------------------------------------------
  Function   : Paint_Draw_ThermoMeter
  Memo       : 温度・湿度・気圧の画面描画
  Date       : 2021.08.29
@@ -52,6 +63,17 @@ void Paint_Draw_ThermoMeter(F32 temperature, F32 humidity, F32 pressure)
     Paint_Draw_Temperature(temperature);
     Paint_Draw_Humidity(humidity);
     Paint_Draw_Pressure(pressure);
+}
+
+/* -----------------------------------------------------------------------------
+ Function   : Paint_Flush_Canvas
+ Memo       : キャンバスをSSD1306モジュールに流す
+ Date       : 2021.09.01
+------------------------------------------------------------------------------*/
+extern void Paint_Flush_Canvas()
+{
+    U08 *p_buf = Ssd1306_Get_Draw_Canvas();
+    memcpy(p_buf, U08_Canvas, SSD1306_CANVAS_SIZE);
     Ssd1306_Update_Frame();
 }
 
@@ -167,8 +189,7 @@ static void Paint_Draw_Pressure(F32 pressure)
 ------------------------------------------------------------------------------*/
 static void Paint_ClearCanvas()
 {
-    U08 *p_canvas = Ssd1306_Get_Draw_Canvas();
-    memset(p_canvas, 0x0, SSD1306_COLUMNS * SSD1306_PAGES);
+    memset(U08_Canvas, 0x0, SSD1306_CANVAS_SIZE);
 }
 /* -----------------------------------------------------------------------------
  Function   : Paint_DrawLargeFont
@@ -177,7 +198,7 @@ static void Paint_ClearCanvas()
 ------------------------------------------------------------------------------*/
 static void Paint_DrawLargeFont(U08 flg_blk_valid, U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -309,7 +330,7 @@ static void Paint_DrawLargeFont(U08 flg_blk_valid, U08 offset_x, U08 offset_y)
 ------------------------------------------------------------------------------*/
 static void Paint_DrawLargeDot(U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -335,7 +356,7 @@ static void Paint_DrawLargeDot(U08 offset_x, U08 offset_y)
 ------------------------------------------------------------------------------*/
 static void Paint_DrawLargeHalfFont(U08 flg_blk_valid, U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -467,7 +488,7 @@ static void Paint_DrawLargeHalfFont(U08 flg_blk_valid, U08 offset_x, U08 offset_
 ------------------------------------------------------------------------------*/
 static void Paint_DrawLargeHalfDeg(U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -493,7 +514,7 @@ static void Paint_DrawLargeHalfDeg(U08 offset_x, U08 offset_y)
 ------------------------------------------------------------------------------*/
 static void Paint_DrawSemiHalfFont(U08 flg_blk_valid, U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -625,7 +646,7 @@ static void Paint_DrawSemiHalfFont(U08 flg_blk_valid, U08 offset_x, U08 offset_y
 ------------------------------------------------------------------------------*/
 static void Paint_DrawSemiHalfHPA(U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -651,7 +672,7 @@ static void Paint_DrawSemiHalfHPA(U08 offset_x, U08 offset_y)
 ------------------------------------------------------------------------------*/
 static void Paint_DrawSemiHalfPercent(U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;
@@ -677,7 +698,7 @@ static void Paint_DrawSemiHalfPercent(U08 offset_x, U08 offset_y)
 ------------------------------------------------------------------------------*/
 static void Paint_DrawSemiHalfDot(U08 offset_x, U08 offset_y)
 {
-    U08 *disp_buffer_org = Ssd1306_Get_Draw_Canvas() + offset_x + offset_y * SSD1306_COLUMNS;
+    U08 *disp_buffer_org = U08_Canvas + offset_x + offset_y * SSD1306_COLUMNS;
     U08 *disp_buffer_temp;
     U08 *disp_buffer;
     U08 row, column;

@@ -381,11 +381,11 @@ static U32 Bme280_CompensateH(S32 adc_H)
 }
 
 /* -----------------------------------------------------------------------------
- Function	: Bme280_Update
+ Function	: Bme280_Measure
  Memo		: 温度・湿度・気圧の計測実施
  Date		: 2021.08.28
 ------------------------------------------------------------------------------*/
-void Bme280_Update()
+void Bme280_Measure()
 {
 	U08 buf;
 	BOOL status = OK;
@@ -423,13 +423,19 @@ void Bme280_Update()
 }
 
 /* -----------------------------------------------------------------------------
- Function	: Bme280_Get_TempHumidPress
- Memo		: 温度・湿度・気圧の取得
+ Function	: Bme280_Get
+ Memo		: 最新の温度・湿度・気圧の取得
  Date		: 2021.08.28
 ------------------------------------------------------------------------------*/
-void Bme280_Get_TempHumidPress(F32 *temperature, F32 *humidity, F32 *pressure)
+extern F32 Bme280_Get_Temperature()
 {
-	*temperature = F32_Temperature;
-	*humidity = F32_Humidity;
-	*pressure = F32_Pressure;
+	return F32_Temperature;
+}
+extern F32 Bme280_Get_Humidity()
+{
+	return F32_Humidity;
+}
+extern F32 Bme280_Get_Pressure()
+{
+	return F32_Pressure;
 }

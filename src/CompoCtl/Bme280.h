@@ -9,8 +9,9 @@
  Extern
 ------------------------------------------------------------------------------*/
 extern BOOL Bme280_Init();
-extern void Bme280_Update();
-extern void Bme280_Get_TempHumidPress(F32 *temperature, F32 *humidity, F32 *pressure);
-
+extern void Bme280_Measure();
+extern F32 Bme280_Get_Temperature();
+extern F32 Bme280_Get_Humidity();
+extern F32 Bme280_Get_Pressure();
 
 #endif /* _BME280_H_ */
