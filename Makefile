@@ -24,7 +24,7 @@ DEPENDS   = $(OBJECTS:.o=.d)
 $(TARGETS): $(OBJECTS) $(LIBS)
 	$(COMPILER) -o $(TARGETDIR)/$@ $^ $(LDFLAGS)
 
-# 中間バイナリのディレクトリを掘りながら.cppを中間ファイル.oに
+# 中間バイナリのディレクトリを掘りながら.cを中間ファイル.oに
 $(OBJROOT)/%.o: %.c
 	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
 	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
