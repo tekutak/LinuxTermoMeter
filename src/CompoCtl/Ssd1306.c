@@ -170,7 +170,7 @@ static BOOL Ssd1306_Write(U08 *data, U32 length)
  Memo       : キャンバスアドレス取得
  Date       : 2021.08.28
 ------------------------------------------------------------------------------*/
-extern U08* Ssd1306_Get_Draw_Canvas()
+U08* Ssd1306_Get_Draw_Canvas()
 {
     return U08p_Draw_Canvas;
 }
@@ -179,7 +179,7 @@ extern U08* Ssd1306_Get_Draw_Canvas()
  Memo       : 描画バッファをSSD1306に送信して画面更新
  Date       : 2021.08.28
 ------------------------------------------------------------------------------*/
-extern void Ssd1306_Update_Frame()
+void Ssd1306_Update_Frame()
 {
     U08_Draw_Canvas_Payload[0] = SSD1306_CTRL_BYTE_DATA_SINGLE;
     Ssd1306_Write(U08_Draw_Canvas_Payload, SSD1306_DRAW_CANVAS_PAYLOAD_SIZE);

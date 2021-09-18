@@ -47,7 +47,7 @@ static void Paint_DrawSemiHalfDot(U08 offset_x, U08 offset_y);
  Memo       : Paint初期化
  Date       : 2021.09.01
 ------------------------------------------------------------------------------*/
-extern BOOL Paint_Init()
+BOOL Paint_Init()
 {
     Paint_ClearCanvas();
     return OK;
@@ -70,7 +70,7 @@ void Paint_Draw_ThermoMeter(F32 temperature, F32 humidity, F32 pressure)
  Memo       : キャンバスをSSD1306モジュールに流す
  Date       : 2021.09.01
 ------------------------------------------------------------------------------*/
-extern void Paint_Flush_Canvas()
+void Paint_Flush_Canvas()
 {
     U08 *p_buf = Ssd1306_Get_Draw_Canvas();
     memcpy(p_buf, U08_Canvas, SSD1306_CANVAS_SIZE);

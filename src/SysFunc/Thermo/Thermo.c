@@ -38,7 +38,7 @@ static F32 F32_Pressure = 0.0;
 　Memo      : 初期化
 　Date      : 2021.09.01
 ------------------------------------------------------------------------------*/
-extern BOOL Thermo_Init()
+BOOL Thermo_Init()
 {
     F32_Temperature = 0.0;
     F32_Humidity = 0.0;
@@ -50,27 +50,27 @@ extern BOOL Thermo_Init()
 　Memo      : 計測実施
 　Date      : 2021.09.01
 ------------------------------------------------------------------------------*/
-extern void Thermo_Measure()
+void Thermo_Measure()
 {
     Bme280_Measure();
+    F32_Temperature = Bme280_Get_Temperature();
+    F32_Humidity = Bme280_Get_Humidity();
+    F32_Pressure = Bme280_Get_Pressure();
 }
 /* -----------------------------------------------------------------------------
 　Function  : Thermo_Get
 　Memo      : 最新の温度・湿度・気圧の取得
 　Date      : 2021.09.01
 ------------------------------------------------------------------------------*/
-extern F32 Thermo_Get_Temperature()
+F32 Thermo_Get_Temperature()
 {
-    F32_Temperature = Bme280_Get_Temperature();
     return F32_Temperature;
 }
-extern F32 Thermo_Get_Humidity()
+F32 Thermo_Get_Humidity()
 {
-    F32_Humidity = Bme280_Get_Humidity();
     return F32_Humidity;
 }
-extern F32 Thermo_Get_Pressure()
+F32 Thermo_Get_Pressure()
 {
-    F32_Pressure = Bme280_Get_Pressure();
     return F32_Pressure;
 }

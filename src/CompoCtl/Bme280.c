@@ -427,15 +427,15 @@ void Bme280_Measure()
  Memo		: 最新の温度・湿度・気圧の取得
  Date		: 2021.08.28
 ------------------------------------------------------------------------------*/
-extern F32 Bme280_Get_Temperature()
+F32 Bme280_Get_Temperature()
 {
 	return F32_Temperature;
 }
-extern F32 Bme280_Get_Humidity()
+F32 Bme280_Get_Humidity()
 {
 	return F32_Humidity;
 }
-extern F32 Bme280_Get_Pressure()
+F32 Bme280_Get_Pressure()
 {
 	return F32_Pressure;
 }

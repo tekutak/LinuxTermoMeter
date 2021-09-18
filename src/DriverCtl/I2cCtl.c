@@ -31,7 +31,7 @@ static S32 fd = FD_INIT_VAL;
  Memo       : I2Cデバイスのオープンを行う。プロセス終了するまでオープンしたままにする
  Date       : 2021.08.28
 ------------------------------------------------------------------------------*/
-extern BOOL I2cCtl_Init()
+BOOL I2cCtl_Init()
 {
     BOOL status = OK;
 
